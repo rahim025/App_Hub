@@ -8,7 +8,6 @@ const colors = ["#22d3ee", "#f472b6", "#a3e635", "#f97316"];
 
 export default async function Catalog() {
   const apps = await sql`SELECT name, category FROM apps ORDER BY created_at DESC`;
-  console.log("APPS:", JSON.stringify(apps));
 
   return (
     <>
@@ -28,4 +27,4 @@ export default async function Catalog() {
       </main>
     </>
   );
-}
+    }
