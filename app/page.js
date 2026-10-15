@@ -1,42 +1,92 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "../components/Header";
+import AnimatedBackground from "../components/AnimatedBackground";
+
+const tiles = [
+  { label: "Web", color: "#22d3ee", from: { x: -220, y: -170 } },
+  { label: "Jeu", color: "#f472b6", from: { x: 210, y: -150 } },
+  { label: "SaaS", color: "#a3e635", from: { x: -230, y: 130 } },
+  { label: "IA", color: "#f97316", from: { x: 220, y: 140 } },
+  { label: "Outil", color: "#818cf8", from: { x: 0, y: -260 } },
+];
+
+function Intro({ onDone }) {
+  const [phase, setPhase] = useState("gather");
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("logo"), 1900);
+    const t2 = setTimeout(onDone, 3600);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [onDone]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
+      exit={{ opacity: 0, transition: { duration: 0.6 } }}
+    >
+      {tiles.map((t, i) => (
+        <motion.div
+          key={t.label}
+          initial={{ x: t.from.x, y: t.from.y, opacity: 0, scale: 0.5, rotate: -8 }}
+          animate={
+            phase === "gather"
+              ? { x: 0, y: 0, opacity: 1, scale: 1, rotate: 0 }
+              : { x: 0, y: 0, opacity: 0, scale: 0.3, rotate: 8 }
+          }
+          transition={{ duration: 0.8, delay: phase === "gather" ? i * 0.12 : 0, ease: "easeOut" }}
+          className="absolute w-20 h-20 rounded-2xl flex items-end p-2 text-xs font-bold text-black"
+          style={{ background: t.color }}
+        >
+          {t.label}
+        </motion.div>
+      ))}
+
+      <div className="flex flex-col items-center">
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={phase === "logo" ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-6xl md:text-8xl font-black bg-gradient-to-r from-cyan-400 via-pink-500 to-orange-400 bg-clip-text text-transparent"
+        >
+          AppHub
+        </motion.h1>
+        <motion.div
+          initial={{ width: 0 }}
+          animate={phase === "logo" ? { width: 200 } : { width: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="h-[2px] mt-4 bg-gradient-to-r from-cyan-400 to-pink-500"
+        />
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={phase === "logo" ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-4 text-sm text-zinc-400 tracking-wide"
+        >
+          Publie. Découvre. Télécharge.
+        </motion.p>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function Home() {
   const [intro, setIntro] = useState(true);
-
-  useEffect(() => {
-    const t = setTimeout(() => setIntro(false), 2200);
-    return () => clearTimeout(t);
-  }, []);
+  const finish = useCallback(() => setIntro(false), []);
 
   return (
     <>
-      <AnimatePresence>
-        {intro && (
-          <motion.div
-            key="intro"
-            exit={{ opacity: 0, transition: { duration: 0.6 } }}
-            className="fixed inset-0 z-50 bg-zinc-950 flex items-center justify-center"
-          >
-            <motion.h1
-              initial={{ opacity: 0, scale: 0.8, letterSpacing: "0.5em" }}
-              animate={{ opacity: 1, scale: 1, letterSpacing: "0em" }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              className="text-6xl md:text-8xl font-black bg-gradient-to-r from-cyan-400 via-pink-500 to-orange-400 bg-clip-text text-transparent"
-            >
-              AppHub
-            </motion.h1>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+      <AnimatedBackground />
+      <AnimatePresence>{intro && <Intro onDone={finish} />}</AnimatePresence>
       <Header />
       <motion.main
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 2.2 }}
+        transition={{ duration: 0.8, delay: 3.4 }}
         className="min-h-[85vh] flex flex-col items-center justify-center px-6 overflow-hidden"
       >
         <motion.h1
@@ -57,4 +107,4 @@ export default function Home() {
       </motion.main>
     </>
   );
-}
+        }
