@@ -74,14 +74,60 @@ function Intro({ onDone }) {
   );
 }
 
+function Welcome({ onDone }) {
+  const text = "Bienvenue sur AppHub";
+
+  useEffect(() => {
+    const t = setTimeout(onDone, 3200);
+    return () => clearTimeout(t);
+  }, [onDone]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-40 flex flex-col items-center justify-center pointer-events-none"
+      exit={{ opacity: 0, y: -20, transition: { duration: 0.6 } }}
+    >
+      <h2 className="text-3xl md:text-5xl font-black flex flex-wrap justify-center px-6 text-center">
+        {text.split("").map((ch, i) => (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ delay: i * 0.05, duration: 0.5, ease: "easeOut" }}
+            className="inline-block"
+          >
+            {ch === " " ? "\u00A0" : ch}
+          </motion.span>
+        ))}
+      </h2>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.6 }}
+        className="mt-4 text-zinc-400"
+      >
+        Prêt à explorer ?
+      </motion.p>
+    </motion.div>
+  );
+}
+
 export default function Home() {
   const [intro, setIntro] = useState(true);
-  const finish = useCallback(() => setIntro(false), []);
+  const [welcome, setWelcome] = useState(false);
+
+  const finishIntro = useCallback(() => {
+    setIntro(false);
+    setWelcome(true);
+  }, []);
+
+  const finishWelcome = useCallback(() => setWelcome(false), []);
 
   return (
     <>
       <AnimatedBackground />
-      <AnimatePresence>{intro && <Intro onDone={finish} />}</AnimatePresence>
+      <AnimatePresence>{intro && <Intro onDone={finishIntro} />}</AnimatePresence>
+      <AnimatePresence>{welcome && <Welcome onDone={finishWelcome} />}</AnimatePresence>
       <Header />
       <motion.main
         initial={{ opacity: 0 }}
@@ -107,4 +153,4 @@ export default function Home() {
       </motion.main>
     </>
   );
-        }
+}
