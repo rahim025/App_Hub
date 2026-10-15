@@ -1,10 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
 
-export default function AppCard({ name, category, color, url }) {
+export default function AppCard({ name, category, color, url, index = 0 }) {
   return (
     <motion.div
-      whileHover={{ scale: 1.05, rotate: 2 }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+      whileHover={{ y: -4 }}
       className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900"
       style={{ boxShadow: `0 0 30px ${color}33` }}
     >
