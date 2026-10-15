@@ -22,6 +22,7 @@ export default async function Catalog() {
               category={app.category}
               url={app.url}
               color={colors[i % colors.length]}
+              index={i}
             />
           ))}
         </div>
