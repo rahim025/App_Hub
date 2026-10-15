@@ -115,42 +115,51 @@ function Welcome({ onDone }) {
 export default function Home() {
   const [intro, setIntro] = useState(true);
   const [welcome, setWelcome] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const finishIntro = useCallback(() => {
     setIntro(false);
     setWelcome(true);
   }, []);
 
-  const finishWelcome = useCallback(() => setWelcome(false), []);
+  const finishWelcome = useCallback(() => {
+    setWelcome(false);
+    setReady(true);
+  }, []);
 
   return (
     <>
       <AnimatedBackground />
       <AnimatePresence>{intro && <Intro onDone={finishIntro} />}</AnimatePresence>
       <AnimatePresence>{welcome && <Welcome onDone={finishWelcome} />}</AnimatePresence>
-      <Header />
-      <motion.main
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 3.4 }}
-        className="min-h-[85vh] flex flex-col items-center justify-center px-6 overflow-hidden"
-      >
-        <motion.h1
-          animate={{ textShadow: ["0 0 20px #22d3ee", "0 0 60px #f472b6", "0 0 20px #22d3ee"] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className="text-7xl md:text-9xl font-black tracking-tight"
-        >
-          AppHub
-        </motion.h1>
-        <p className="mt-6 text-lg text-zinc-400">Découvrez les créations du monde</p>
-        <motion.a
-          href="/catalog"
-          whileHover={{ scale: 1.08, boxShadow: "0 0 40px #f97316" }}
-          className="mt-10 px-10 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-pink-500 to-orange-400 font-bold text-black"
-        >
-          Explorer
-        </motion.a>
-      </motion.main>
+
+      {ready && (
+        <>
+          <Header />
+          <motion.main
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="min-h-[85vh] flex flex-col items-center justify-center px-6 overflow-hidden"
+          >
+            <motion.h1
+              animate={{ textShadow: ["0 0 20px #22d3ee", "0 0 60px #f472b6", "0 0 20px #22d3ee"] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="text-7xl md:text-9xl font-black tracking-tight"
+            >
+              AppHub
+            </motion.h1>
+            <p className="mt-6 text-lg text-zinc-400">Découvrez les créations du monde</p>
+            <motion.a
+              href="/catalog"
+              whileHover={{ scale: 1.08, boxShadow: "0 0 40px #f97316" }}
+              className="mt-10 px-10 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-pink-500 to-orange-400 font-bold text-black"
+            >
+              Explorer
+            </motion.a>
+          </motion.main>
+        </>
+      )}
     </>
   );
-}
+                      }
