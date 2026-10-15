@@ -30,9 +30,8 @@ function Intro({ onDone }) {
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase("logo"), 1500),
-      setTimeout(() => setPhase("welcome"), 2600),
-      setTimeout(() => setPhase("out"), 10600),
-      setTimeout(onDone, 11200),
+      setTimeout(() => setPhase("out"), 4000),
+      setTimeout(onDone, 4600),
     ];
     return () => timers.forEach(clearTimeout);
   }, [onDone]);
@@ -79,53 +78,6 @@ function Intro({ onDone }) {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="h-px mt-4 bg-gradient-to-r from-cyan-400 to-pink-500"
             />
-          </motion.div>
-        )}
-
-        {phase === "welcome" && (
-          <motion.div
-            key="welcome"
-            exit={{ opacity: 0, y: -16, transition: { duration: 0.5 } }}
-            className="flex flex-col items-center text-center px-6"
-          >
-            <motion.p
-              initial={{ opacity: 0, letterSpacing: "0.1em" }}
-              animate={{ opacity: 1, letterSpacing: "0.4em" }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="text-xs md:text-sm uppercase text-zinc-500 mb-6"
-            >
-              Bonjour
-            </motion.p>
-
-            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight">
-              {"Bienvenue sur AppHub".split("").map((ch, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ delay: 0.3 + i * 0.04, duration: 0.6, ease: "easeOut" }}
-                  className="inline-block"
-                >
-                  {ch === " " ? "\u00A0" : ch}
-                </motion.span>
-              ))}
-            </h2>
-
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 1.1, duration: 0.8, ease: "easeOut" }}
-              className="h-px w-40 mt-6 bg-gradient-to-r from-cyan-400 to-pink-500"
-            />
-
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.8 }}
-              className="mt-5 text-zinc-300 max-w-md text-base md:text-lg leading-relaxed"
-            >
-              Publiez vos créations et découvrez celles de la communauté.
-            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -272,4 +224,4 @@ export default function Home() {
       )}
     </>
   );
-                   }
+}
