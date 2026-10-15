@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 const colors = ["#22d3ee", "#f472b6", "#a3e635", "#f97316"];
 
 export default async function Catalog() {
-  const apps = await sql`SELECT name, category FROM apps ORDER BY created_at DESC`;
+  const apps = await sql`SELECT name, category, url FROM apps ORDER BY created_at DESC`;
 
   return (
     <>
@@ -20,6 +20,7 @@ export default async function Catalog() {
               key={app.name}
               name={app.name}
               category={app.category}
+              url={app.url}
               color={colors[i % colors.length]}
             />
           ))}
