@@ -1,8 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+import "./globals.css";
 
-body {
-  background: #09090b;
-  color: #fafafa;
+export const metadata = {
+  title: "AppHub",
+  description: "Découvrez les créations du monde",
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="fr">
+      <body>{children}</body>
+    </html>
+  );
 }
