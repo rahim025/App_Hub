@@ -6,10 +6,26 @@ export default function Publish() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [url, setUrl] = useState("");
+  const [status, setStatus] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Application "${name}" soumise (démo).`);
+    setStatus("Envoi...");
+
+    const res = await fetch("/api/apps", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, category, url }),
+    });
+
+    if (res.ok) {
+      setStatus("App publiée !");
+      setName("");
+      setCategory("");
+      setUrl("");
+    } else {
+      setStatus("Erreur, vérifie les champs.");
+    }
   };
 
   return (
@@ -22,8 +38,9 @@ export default function Publish() {
           <input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Catégorie" className="p-3 rounded-lg bg-zinc-900 border border-zinc-800" required />
           <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="Lien de l'app" className="p-3 rounded-lg bg-zinc-900 border border-zinc-800" required />
           <button type="submit" className="p-3 rounded-lg bg-gradient-to-r from-cyan-400 to-pink-500 font-bold text-black">Publier</button>
+          {status && <p className="text-sm text-zinc-400">{status}</p>}
         </form>
       </main>
     </>
   );
-    }
+}
