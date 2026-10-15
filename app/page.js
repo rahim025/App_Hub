@@ -5,8 +5,8 @@ function Intro({ onDone }) {
     const timers = [
       setTimeout(() => setPhase("logo"), 1500),
       setTimeout(() => setPhase("welcome"), 2600),
-      setTimeout(() => setPhase("out"), 8400),
-      setTimeout(onDone, 9000),
+      setTimeout(() => setPhase("out"), 11000),
+      setTimeout(onDone, 11600),
     ];
     return () => timers.forEach(clearTimeout);
   }, [onDone]);
@@ -95,8 +95,8 @@ function Intro({ onDone }) {
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5, duration: 0.8 }}
-              className="mt-5 text-zinc-400 max-w-md text-base md:text-lg leading-relaxed"
+              transition={{ delay: 1.2, duration: 0.8 }}
+              className="mt-5 text-zinc-300 max-w-md text-base md:text-lg leading-relaxed"
             >
               Publiez vos créations et découvrez celles de la communauté.
             </motion.p>
@@ -105,4 +105,4 @@ function Intro({ onDone }) {
       </AnimatePresence>
     </motion.div>
   );
-        }
+                 }
