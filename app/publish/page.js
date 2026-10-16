@@ -1,8 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Header from "../../components/Header";
 
 export default function Publish() {
+  const router = useRouter();
+  const { data: session, status: auth } = useSession();
+
+  useEffect(() => {
+    if (auth === "unauthenticated" || (auth === "authenticated" && !session.user.pseudo)) {
+      router.replace("/enter");
+    }
+  }, [auth, session, router]);
+
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [url, setUrl] = useState("");
