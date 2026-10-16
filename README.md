@@ -30,3 +30,12 @@ Version de démonstration (étape 1 : interface).
 - Framer Motion (animations)
 
 ## Structure du projet
+
+## Connexion (créateurs)
+
+- Choix « créateur / utilisateur » sur `/enter`. Les utilisateurs n'ont pas de compte : ils parcourent le catalogue.
+- Les créateurs se connectent uniquement avec Google (Auth.js), puis créent leur pseudo et choisissent ce qu'ils créent. La photo vient de leur compte Gmail.
+- Seuls les créateurs peuvent publier (`/publish`, `POST /api/apps`).
+- Variables à définir : voir `.env.example` (identifiants Google OAuth, `NEXTAUTH_SECRET`, `DATABASE_URL`).
+- URI de redirection à ajouter dans Google Cloud : `<URL du site>/api/auth/callback/google`.
+- Les tables `creators` et la colonne `apps.creator` se créent automatiquement à la première utilisation.
