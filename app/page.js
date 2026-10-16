@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import Header from "../components/Header";
 import AnimatedBackground from "../components/AnimatedBackground";
+import Logo from "../components/Logo";
 
 const tiles = [
   { label: "Web", color: "#22d3ee", from: { x: -220, y: -170 } },
@@ -24,21 +25,85 @@ const features = [
   { title: "Utilisez", text: "Ouvrez chaque projet directement depuis son lien." },
 ];
 
+function ContinueButton({ onClick }) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.2, duration: 0.7, ease: "easeOut" }}
+      whileHover={{ scale: 1.06 }}
+      whileTap={{ scale: 0.95 }}
+      className="group relative mt-10 inline-flex items-center gap-3 overflow-hidden rounded-full px-9 py-4 font-bold text-black"
+    >
+      <motion.span
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-pink-500 to-orange-400"
+        style={{ backgroundSize: "200% auto" }}
+        animate={{ backgroundPosition: ["0% 50%", "100% 50%"] }}
+        transition={{ duration: 3, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+      />
+      <motion.span
+        aria-hidden="true"
+        className="absolute inset-y-0 w-10 -skew-x-12 bg-white/50"
+        initial={{ left: "-20%" }}
+        animate={{ left: ["-20%", "120%"] }}
+        transition={{ duration: 1.6, repeat: Infinity, repeatDelay: 1.4, ease: "easeInOut" }}
+      />
+      <span className="relative">Appuyer pour continuer</span>
+      <motion.span
+        aria-hidden="true"
+        className="relative"
+        animate={{ x: [0, 6, 0] }}
+        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+      >
+        →
+      </motion.span>
+      <motion.span
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-1 rounded-full border-2 border-pink-400"
+        animate={{ opacity: [0.7, 0], scale: [1, 1.25] }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+      />
+    </motion.button>
+  );
+}
+
 function Intro({ onDone }) {
   const [phase, setPhase] = useState("gather");
+  const leaving = useRef(false);
+  const exitTimer = useRef(null);
 
   useEffect(() => {
-    const timers = [
-      setTimeout(() => setPhase("logo"), 1500),
-      setTimeout(() => setPhase("out"), 4000),
-      setTimeout(onDone, 4600),
-    ];
-    return () => timers.forEach(clearTimeout);
+    const t = setTimeout(() => setPhase("logo"), 3000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const proceed = useCallback(() => {
+    if (leaving.current) return;
+    leaving.current = true;
+    setPhase("out");
+    exitTimer.current = setTimeout(onDone, 600);
   }, [onDone]);
+
+  useEffect(() => {
+    if (phase !== "logo") return;
+    const onKey = (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        proceed();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [phase, proceed]);
+
+  useEffect(() => () => clearTimeout(exitTimer.current), []);
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-zinc-950"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-zinc-950 px-6"
       animate={{ opacity: phase === "out" ? 0 : 1 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
@@ -51,7 +116,11 @@ function Intro({ onDone }) {
               ? { x: 0, y: 0, opacity: 1, scale: 1, rotate: 0 }
               : { x: 0, y: 0, opacity: 0, scale: 0.3, rotate: 8 }
           }
-          transition={{ duration: 0.9, delay: phase === "gather" ? i * 0.12 : 0, ease: "easeOut" }}
+          transition={
+            phase === "gather"
+              ? { duration: 1.6, delay: i * 0.35, ease: "easeOut" }
+              : { duration: 0.6, ease: "easeIn" }
+          }
           className="absolute w-20 h-20 rounded-2xl flex items-end p-2 text-xs font-bold text-black"
           style={{ background: t.color }}
         >
@@ -59,25 +128,35 @@ function Intro({ onDone }) {
         </motion.div>
       ))}
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {phase === "logo" && (
           <motion.div
-            key="logo"
+            key="welcome"
             initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 1.08, filter: "blur(10px)" }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col items-center"
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="flex flex-col items-center text-center"
           >
-            <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-cyan-400 via-pink-500 to-orange-400 bg-clip-text text-transparent">
+            <p className="text-sm uppercase tracking-[0.3em] text-zinc-500">Bienvenue sur</p>
+            <Logo size={200} className="mt-2" />
+            <h1 className="-mt-2 text-6xl md:text-8xl font-black bg-gradient-to-r from-cyan-400 via-pink-500 to-orange-400 bg-clip-text text-transparent">
               AppHub
             </h1>
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: 200 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
               className="h-px mt-4 bg-gradient-to-r from-cyan-400 to-pink-500"
             />
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="mt-5 max-w-sm text-base md:text-lg text-zinc-400"
+            >
+              Publiez, découvrez et utilisez les créations du monde.
+            </motion.p>
+            <ContinueButton onClick={proceed} />
           </motion.div>
         )}
       </AnimatePresence>
