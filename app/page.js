@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   motion,
   AnimatePresence,
@@ -285,10 +286,15 @@ export default function Home() {
   const [intro, setIntro] = useState(true);
   const [ready, setReady] = useState(false);
 
+  const router = useRouter();
   const finishIntro = useCallback(() => {
+    if (!localStorage.getItem("apphub_role")) {
+      router.push("/enter");
+      return;
+    }
     setIntro(false);
     setReady(true);
-  }, []);
+  }, [router]);
 
   return (
     <>
