@@ -29,7 +29,7 @@ export default function Home() {
           <h1 className="text-4xl md:text-5xl font-semibold tracking-tight leading-tight">
             Les projets des créateurs, réunis au même endroit.
           </h1>
-          <p className="mt-5 text-lg text-zinc-600">
+          <p className="mt-5 text-lg text-muted">
             AppHub référence des sites, des jeux et des outils en ligne. Parcourez le catalogue ou publiez le vôtre.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -37,11 +37,11 @@ export default function Home() {
             <Link href="/enter" className="btn btn-secondary">Publier un projet</Link>
           </div>
         </section>
-        <section className="border-t border-zinc-200 pt-12 grid gap-10 md:grid-cols-3">
+        <section className="border-t border-line pt-12 grid gap-10 md:grid-cols-3">
           {steps.map((s) => (
             <div key={s.title}>
               <h2 className="font-semibold">{s.title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-600">{s.text}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{s.text}</p>
             </div>
           ))}
         </section>

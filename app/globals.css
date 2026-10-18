@@ -2,23 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light dark;
+  --page: #ffffff;
+  --surface: #ffffff;
+  --line: #dadce0;
+  --ink: #1f1f1f;
+  --muted: #5f6368;
+  --accent: #1f1f1f;
+  --accent-ink: #ffffff;
+  --hover: #f1f3f4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #131314;
+    --surface: #1e1f20;
+    --line: #444746;
+    --ink: #e3e3e3;
+    --muted: #c4c7c5;
+    --accent: #e3e3e3;
+    --accent-ink: #131314;
+    --hover: #282a2c;
+  }
+}
+
 body {
-  background: #fafaf9;
-  color: #18181b;
+  background: var(--page);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-medium transition-colors;
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2.5 text-sm font-medium transition-colors;
   }
   .btn-primary {
-    @apply bg-zinc-900 text-white hover:bg-zinc-700;
+    @apply bg-accent text-accent-ink hover:opacity-90;
   }
   .btn-secondary {
-    @apply border border-zinc-300 bg-white text-zinc-800 hover:bg-zinc-100;
+    @apply border border-line bg-surface text-ink hover:bg-[var(--hover)];
   }
   .field {
-    @apply w-full rounded-md border border-zinc-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-zinc-900;
+    @apply w-full rounded-md border border-line bg-surface px-3 py-2.5 text-sm text-ink outline-none placeholder:text-muted focus:border-ink;
   }
 }

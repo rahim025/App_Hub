@@ -12,8 +12,8 @@ export default function RootLayout({ children }) {
       <body className="font-sans">
         <Providers>
           {children}
-          <footer className="border-t border-zinc-200 mt-24">
-            <div className="max-w-6xl mx-auto px-6 py-8 text-sm text-zinc-500">
+          <footer className="border-t border-line mt-24">
+            <div className="max-w-6xl mx-auto px-6 py-8 text-sm text-muted">
               © 2026 AppHub · par Batchabi Rahim
             </div>
           </footer>
