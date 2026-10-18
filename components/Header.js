@@ -16,7 +16,6 @@ export default function Header() {
           <span className="font-semibold tracking-tight">AppHub</span>
         </Link>
         <nav className="flex items-center gap-4 sm:gap-6 text-sm text-muted">
-          <Link href="/catalog" className="hover:text-ink">Catalogue</Link>
           {isCreator ? (
             <>
               <Link href="/publish" className="hover:text-ink">Publier</Link>
