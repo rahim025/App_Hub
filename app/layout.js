@@ -1,9 +1,19 @@
 import "./globals.css";
 import Providers from "../components/Providers";
+import Footer from "../components/Footer";
+import { site } from "../lib/site";
 
 export const metadata = {
-  title: "AppHub",
-  description: "Le catalogue des sites, jeux et outils publiés par leurs créateurs.",
+  metadataBase: new URL(site.url),
+  title: { default: `${site.name} – Catalogue de projets en ligne`, template: `%s · ${site.name}` },
+  description: site.description,
+  openGraph: {
+    title: site.name,
+    description: site.description,
+    siteName: site.name,
+    locale: "fr_FR",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -12,11 +22,7 @@ export default function RootLayout({ children }) {
       <body className="font-sans">
         <Providers>
           {children}
-          <footer className="border-t border-line mt-24">
-            <div className="max-w-6xl mx-auto px-6 py-8 text-sm text-muted">
-              © 2026 AppHub · par Batchabi Rahim
-            </div>
-          </footer>
+          <Footer />
         </Providers>
       </body>
     </html>
