@@ -9,24 +9,27 @@ export default function Header() {
   const isCreator = Boolean(user?.pseudo);
 
   return (
-    <header className="border-b border-zinc-200 bg-white">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 h-16">
-        <Link href="/" className="flex items-center gap-2.5">
+    <header className="border-b border-line bg-surface">
+      <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 px-4 sm:px-6 h-16">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <Logo size={28} />
           <span className="font-semibold tracking-tight">AppHub</span>
         </Link>
-        <nav className="flex items-center gap-6 text-sm text-zinc-600">
-          <Link href="/catalog" className="hover:text-zinc-900">Catalogue</Link>
+        <nav className="flex items-center gap-4 sm:gap-6 text-sm text-muted">
+          <Link href="/catalog" className="hover:text-ink">Catalogue</Link>
           {isCreator ? (
             <>
-              <Link href="/publish" className="hover:text-zinc-900">Publier</Link>
-              <span className="hidden sm:inline text-zinc-900">@{user.pseudo}</span>
-              <button onClick={() => signOut({ callbackUrl: "/" })} className="hover:text-zinc-900">
-                Déconnexion
+              <Link href="/publish" className="hover:text-ink">Publier</Link>
+              <span className="hidden sm:inline text-ink">@{user.pseudo}</span>
+              <button onClick={() => signOut({ callbackUrl: "/" })} className="hover:text-ink">
+                Quitter
               </button>
             </>
           ) : (
-            <Link href="/enter" className="btn btn-primary !py-1.5">Espace créateur</Link>
+            <Link href="/enter" className="btn btn-primary !py-1.5 !px-3">
+              <span className="sm:hidden">Créateur</span>
+              <span className="hidden sm:inline">Espace créateur</span>
+            </Link>
           )}
         </nav>
       </div>
