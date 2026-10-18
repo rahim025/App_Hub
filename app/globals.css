@@ -4,26 +4,26 @@
 
 :root {
   color-scheme: light dark;
-  --page: #ffffff;
+  --page: #f8fafc;
   --surface: #ffffff;
-  --line: #dadce0;
-  --ink: #1f1f1f;
-  --muted: #5f6368;
-  --accent: #1f1f1f;
+  --line: #e2e8f0;
+  --ink: #0f172a;
+  --muted: #475569;
+  --accent: #2563eb;
   --accent-ink: #ffffff;
-  --hover: #f1f3f4;
+  --hover: #f1f5f9;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --page: #131314;
-    --surface: #1e1f20;
-    --line: #444746;
-    --ink: #e3e3e3;
-    --muted: #c4c7c5;
-    --accent: #e3e3e3;
-    --accent-ink: #131314;
-    --hover: #282a2c;
+    --page: #0b1220;
+    --surface: #111a2e;
+    --line: #243049;
+    --ink: #e5e9f2;
+    --muted: #9aa6bd;
+    --accent: #3b82f6;
+    --accent-ink: #ffffff;
+    --hover: #18233c;
   }
 }
 
@@ -44,6 +44,6 @@ body {
     @apply border border-line bg-surface text-ink hover:bg-[var(--hover)];
   }
   .field {
-    @apply w-full rounded-md border border-line bg-surface px-3 py-2.5 text-sm text-ink outline-none placeholder:text-muted focus:border-ink;
+    @apply w-full rounded-md border border-line bg-surface px-3 py-2.5 text-sm text-ink outline-none placeholder:text-muted focus:border-accent;
   }
 }
