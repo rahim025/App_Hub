@@ -11,10 +11,10 @@ function Choice({ title, text, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="w-full text-left rounded-lg border border-zinc-200 bg-white p-5 hover:border-zinc-900 transition-colors"
+      className="w-full text-left rounded-lg border border-line bg-surface p-5 hover:border-ink transition-colors"
     >
       <div className="font-semibold">{title}</div>
-      <div className="mt-1 text-sm text-zinc-600">{text}</div>
+      <div className="mt-1 text-sm text-muted">{text}</div>
     </button>
   );
 }
@@ -75,7 +75,7 @@ export default function Enter() {
         {step === "choice" && (
           <div>
             <h1 className="text-2xl font-semibold text-center tracking-tight">Bienvenue sur AppHub</h1>
-            <p className="mt-2 mb-6 text-center text-zinc-600">Comment souhaitez-vous l&apos;utiliser ?</p>
+            <p className="mt-2 mb-6 text-center text-muted">Comment souhaitez-vous l&apos;utiliser ?</p>
             <div className="flex flex-col gap-3">
               <Choice title="Je publie mes projets" text="Connexion avec un compte Google." onClick={chooseCreator} />
               <Choice title="Je parcours le catalogue" text="Aucun compte nécessaire." onClick={chooseUser} />
@@ -86,7 +86,7 @@ export default function Enter() {
         {step === "google" && (
           <div className="text-center">
             <h1 className="text-2xl font-semibold tracking-tight">Connexion créateur</h1>
-            <p className="mt-2 mb-6 text-zinc-600">Connectez-vous avec votre compte Google pour accéder à votre espace.</p>
+            <p className="mt-2 mb-6 text-muted">Connectez-vous avec votre compte Google pour accéder à votre espace.</p>
             <button
               type="button"
               onClick={() => signIn("google", { callbackUrl: "/enter" })}
@@ -94,7 +94,7 @@ export default function Enter() {
             >
               Continuer avec Google
             </button>
-            <button onClick={() => setStep("choice")} className="mt-4 text-sm text-zinc-500 hover:text-zinc-900">
+            <button onClick={() => setStep("choice")} className="mt-4 text-sm text-muted hover:text-ink">
               Retour
             </button>
           </div>
@@ -103,7 +103,7 @@ export default function Enter() {
         {step === "profile" && (
           <form onSubmit={submit}>
             <h1 className="text-2xl font-semibold text-center tracking-tight">Créer votre profil</h1>
-            <p className="mt-2 mb-6 text-center text-zinc-600">Dernière étape avant d&apos;accéder à votre espace.</p>
+            <p className="mt-2 mb-6 text-center text-muted">Dernière étape avant d&apos;accéder à votre espace.</p>
             <span className="text-sm font-medium">Ce que vous créez</span>
             <div className="flex flex-wrap gap-2 mt-2 mb-5">
               {CATS.map((c) => (
@@ -112,7 +112,7 @@ export default function Enter() {
                   type="button"
                   onClick={() => toggle(c)}
                   className={`px-3.5 py-1.5 rounded-md border text-sm ${
-                    cats.includes(c) ? "bg-zinc-900 border-zinc-900 text-white" : "border-zinc-300 bg-white text-zinc-700"
+                    cats.includes(c) ? "bg-accent border-accent text-accent-ink" : "border-line bg-surface text-muted"
                   }`}
                 >
                   {c}
@@ -128,18 +128,18 @@ export default function Enter() {
               maxLength={20}
               className="field mt-1"
             />
-            <div className="flex items-center gap-3 mt-4 p-3 rounded-md border border-zinc-200 bg-white">
+            <div className="flex items-center gap-3 mt-4 p-3 rounded-md border border-line bg-surface">
               {photo ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={photo} alt="" referrerPolicy="no-referrer" className="w-10 h-10 rounded-full" />
               ) : (
-                <span className="w-10 h-10 rounded-full bg-zinc-900 text-white font-medium flex items-center justify-center">
+                <span className="w-10 h-10 rounded-full bg-accent text-accent-ink font-medium flex items-center justify-center">
                   {pseudo ? pseudo[0].toUpperCase() : "?"}
                 </span>
               )}
               <div>
                 <div className="text-sm font-medium">@{pseudo || "pseudo"}</div>
-                <div className="text-xs text-zinc-500">Photo de votre compte Google</div>
+                <div className="text-xs text-muted">Photo de votre compte Google</div>
               </div>
             </div>
             <p className="text-sm text-red-600 min-h-[20px] mt-2">{error}</p>
@@ -152,7 +152,7 @@ export default function Enter() {
         {step === "done" && (
           <div className="text-center">
             <h1 className="text-2xl font-semibold tracking-tight">Bienvenue, @{pseudo}</h1>
-            <p className="mt-2 text-zinc-600">Votre espace est prêt. Redirection en cours…</p>
+            <p className="mt-2 text-muted">Votre espace est prêt. Redirection en cours…</p>
           </div>
         )}
       </div>
