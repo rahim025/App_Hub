@@ -21,7 +21,7 @@ export default function Publish() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Envoi...");
+    setStatus("Envoi en cours…");
 
     const res = await fetch("/api/apps", {
       method: "POST",
@@ -30,26 +30,27 @@ export default function Publish() {
     });
 
     if (res.ok) {
-      setStatus("App publiée !");
+      setStatus("Projet publié.");
       setName("");
       setCategory("");
       setUrl("");
     } else {
-      setStatus("Erreur, vérifie les champs.");
+      setStatus("Échec de la publication. Vérifiez les champs.");
     }
   };
 
   return (
     <>
       <Header />
-      <main className="px-6 py-12 max-w-xl mx-auto">
-        <h2 className="text-4xl font-black mb-8">Publier une app</h2>
+      <main className="px-6 pt-12 max-w-xl mx-auto">
+        <h1 className="text-3xl font-semibold tracking-tight">Publier un projet</h1>
+        <p className="mt-2 mb-8 text-muted">Il apparaîtra dans le catalogue dès sa publication.</p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nom de l'app" className="p-3 rounded-lg bg-zinc-900 border border-zinc-800" required />
-          <input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Catégorie" className="p-3 rounded-lg bg-zinc-900 border border-zinc-800" required />
-          <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="Lien de l'app" className="p-3 rounded-lg bg-zinc-900 border border-zinc-800" required />
-          <button type="submit" className="p-3 rounded-lg bg-gradient-to-r from-cyan-400 to-pink-500 font-bold text-black">Publier</button>
-          {status && <p className="text-sm text-zinc-400">{status}</p>}
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nom du projet" className="field" required />
+          <input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Catégorie (Web, Jeu, SaaS…)" className="field" required />
+          <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="Lien du projet (https://…)" className="field" required />
+          <button type="submit" className="btn btn-primary">Publier</button>
+          {status && <p className="text-sm text-muted">{status}</p>}
         </form>
       </main>
     </>
